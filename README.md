@@ -10,6 +10,12 @@ docker-compose build
 
 ## Run
 
+Create a `data/` directory in the project root. This is where the screenshots will be saved.
+
+```commandline
+mkdir data/
+```
+
 ```commandline
 docker-compose up
 ```
