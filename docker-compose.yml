@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+  worker:
+    image: crawler:latest
+    build: .
+    command: ["celery -A crawler.crawler_tasks worker --loglevel=INFO"]
+    volumes:
+      - ./:/app
+  api:
+    image: crawler:latest
+    build: .
+    command: ["uvicorn --app-dir /app --host 0.0.0.0 main:app"]
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/app
+
