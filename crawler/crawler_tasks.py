@@ -11,21 +11,13 @@ app = celery.Celery(__name__,
 
 
 def get_driver():
-    # options = webdriver.ChromeOptions()
-    # options.add_argument('--headless')
-    # options.add_argument('--no-sandbox')
-    # driver = webdriver.Chrome(options=options)
+    # experimented with Chrome, Firefox and remote selenium browser, but did not get
+    # the configuration properly for the remote hub. i believe in production it is better to use
+    # a remote instance of a driver/browser
     options = webdriver.FirefoxOptions()
     options.add_argument('--headless')
     driver = webdriver.Firefox(options=options)
     return driver
-
-
-# def get_remote_driver():
-#     options = webdriver.ChromeOptions()
-#     options.add_argument('--headless')
-#     driver = webdriver.Remote('http://localhost:4444/wd/hub', options=options)
-#     return driver
 
 
 def parse_urls(driver, url_limit):
@@ -55,6 +47,7 @@ def start_crawl(url: str, url_limit: int, package_id: int):
     driver = get_driver()
     driver.get(url)
     follow_urls = parse_urls(driver, url_limit)
+    # ensure the start page is also screenshot
     follow_urls.add(url)
 
     for follow_url in follow_urls:
